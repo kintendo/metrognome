@@ -12,16 +12,22 @@ const bpmELm = document.getElementById('bpm');
 const counterElm = document.getElementById('counter');
 const resetCounterButton = document.getElementById('resetCounterButton');
 const audioElm = document.getElementById('lo');
+const audioElmStress = document.getElementById('hi');
 const historyElm = document.getElementById('history');
 const increaseBPMButton = document.getElementById('increaseBPM');
 const decreaseBPMButton = document.getElementById('decreaseBPM');
 const clearHistoryButton = document.getElementById('clearHistoryButton');
+const checkbox = document.getElementById('checkbox');
 
 // start the metronome
 function playGnome() {
     const interval = 60 / bpm * 1000;
     gnomeInterval = setInterval(() => {
-        audioElm.play();
+        if (checkbox.checked && counter % 2 === 0) {
+            audioElmStress.play();
+        } else {
+            audioElm.play();
+        }
         tickCounter();
     }, interval);
 }
@@ -29,6 +35,7 @@ function playGnome() {
 // pause the metronome
 function pauseGnome() {
     audioElm.pause();
+    audioElmStress.pause();
     clearInterval(gnomeInterval);
 }
 

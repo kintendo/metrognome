@@ -24,7 +24,10 @@
         <div>Tempo Indicator</div>
         <button id="playButton">Play</button>
         <button id="pauseButton">Pause</button>
-        <div>Stress First Beat</div>
+        <div>
+            <input type="checkbox" id="checkbox">
+            <label for="checkbox">Stress First Beat</label>
+        </div>
         <div id="counter">0</div>
         <button id="resetCounterButton">Reset Counter</button>
         <button id="clearHistoryButton">Clear History</button>
@@ -33,6 +36,7 @@
             <ul id="history"></ul>
         </div>
         <audio id="lo" src="Synth_Sine_C_lo.wav"></audio>
+        <audio id="hi" src="Synth_Sine_C_hi.wav"></audio>
     </main>
     <footer>
         <!-- Your footer content goes here -->
