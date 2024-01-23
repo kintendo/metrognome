@@ -21,6 +21,9 @@ const checkbox = document.getElementById('checkbox');
 
 // start the metronome
 function playGnome() {
+    if (gnomeInterval) {
+        return;
+    }
     const interval = 60 / bpm * 1000;
     gnomeInterval = setInterval(() => {
         if (checkbox.checked && counter % 2 === 0) {
@@ -37,6 +40,7 @@ function pauseGnome() {
     audioElm.pause();
     audioElmStress.pause();
     clearInterval(gnomeInterval);
+    gnomeInterval = null;
 }
 
 // increment counter
@@ -67,7 +71,8 @@ function resetCounter() {
 // log history
 function logCounterHistory() {
     const newHistoryRecord = document.createElement('li');
-    newHistoryRecord.innerText = counter;
+    const reps = Math.floor(counter / 2);
+    newHistoryRecord.innerText = `Count: ${counter} -- Reps: ${reps}`;
     historyElm.appendChild(newHistoryRecord);
 }
 
