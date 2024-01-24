@@ -1,0 +1,26 @@
+header {
+    display: flex;
+    justify-content: center;
+}
+
+main {
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+}
+
+div {
+    display: flex;
+    flex-direction:row;
+    justify-content: center;
+}
+
+#historyContainer {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#historyContainer ul {
+    list-style-type: none;
+}

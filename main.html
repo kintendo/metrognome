@@ -5,8 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Metrognome</title>
-    <!-- Add your CSS file link here -->
-    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
     <header>
@@ -14,32 +13,34 @@
     </header>
     <main>
         <div>
-            <h2>BPM</h2>
-            <p id="bpm"></p>
+            <span id="bpm"></span>
         </div>
         <div>
             <button id="decreaseBPMByTen">- 10</button>
             <button id="decreaseBPM">- 1</button>
             <button id="increaseBPM">+ 1</button>
             <button id="increaseBPMByTen">+ 10</button>
-        <div>
+        </div>
         <div>
             <span id="hiIndicator">○</span>
             <span id="loIndicator">○</span>
         </div>
-        <button id="playButton">Play</button>
-        <button id="pauseButton">Pause</button>
+        <div>
+            <button id="playButton">Play</button>
+            <button id="pauseButton">Pause</button>
+        </div>
         <div>
             <input type="checkbox" id="checkbox">
             <label for="checkbox">Stress First Beat</label>
         </div>
         <div>
-                Counter:&nbsp;<span id="counter">0</span>
-                <br />
+                Counter:&nbsp;<span id="counter">0</span>&nbsp;&nbsp;
                 Reps:&nbsp;<span id="reps">0</span>
         </div>
-        <button id="resetCounterButton">Reset Counter</button>
-        <button id="clearHistoryButton">Clear History</button>
+        <div>
+            <button id="resetCounterButton">Reset Counter</button>
+            <button id="clearHistoryButton">Clear History</button>
+        </div>
         <div id="historyContainer">
             <h3>History</h3>
             <ul id="history"></ul>
