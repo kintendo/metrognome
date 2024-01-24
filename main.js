@@ -2,22 +2,27 @@ console.log('working');
 
 // mutable variables
 let gnomeInterval;
-let bpm = 60;
+let bpm = 50;
 let counter = 0;
 
-// dom elements
+// arrach dom elements
 const playButton = document.getElementById('playButton');
 const pauseButton = document.getElementById('pauseButton');
 const bpmELm = document.getElementById('bpm');
 const counterElm = document.getElementById('counter');
+const repsElm = document.getElementById('reps');
 const resetCounterButton = document.getElementById('resetCounterButton');
 const audioElm = document.getElementById('lo');
 const audioElmStress = document.getElementById('hi');
 const historyElm = document.getElementById('history');
+const increaseBPMByTenButton = document.getElementById('increaseBPMByTen');
 const increaseBPMButton = document.getElementById('increaseBPM');
 const decreaseBPMButton = document.getElementById('decreaseBPM');
+const decreaseBPMByTenButton = document.getElementById('decreaseBPMByTen');
 const clearHistoryButton = document.getElementById('clearHistoryButton');
-const checkbox = document.getElementById('checkbox');
+const checkboxElm = document.getElementById('checkbox');
+const hiIndicatorElm = document.getElementById('hiIndicator');
+const loIndicatorElm = document.getElementById('loIndicator');
 
 // start the metronome
 function playGnome() {
@@ -26,13 +31,24 @@ function playGnome() {
     }
     const interval = 60 / bpm * 1000;
     gnomeInterval = setInterval(() => {
-        if (checkbox.checked && counter % 2 === 0) {
+        if (checkboxElm.checked && counter % 2 === 0) {
             audioElmStress.play();
         } else {
             audioElm.play();
         }
         tickCounter();
+        setIndicator();
     }, interval);
+}
+
+function setIndicator() {
+    if (counter % 2 === 0) {
+        hiIndicatorElm.innerText = '○';
+        loIndicatorElm.innerText = '●';
+    } else { 
+        hiIndicatorElm.innerText = '●';
+        loIndicatorElm.innerText = '○';
+    }
 }
 
 // pause the metronome
@@ -47,18 +63,19 @@ function pauseGnome() {
 function tickCounter() {
     counter = counter + 1;
     counterElm.innerText = counter;
+    const reps = Math.floor(counter / 2);
+    repsElm.innerText = reps;
 }
 
 // increment BPM
-function incrementBPM() {
-    bpm = bpm + 1;
+function setBPM(value) {
+    bpm = value;
     bpmELm.innerText = bpm;
-}
-
-// decrement BPM
-function decrementBPM() {
-    bpm = bpm - 1;
-    bpmELm.innerText = bpm;
+    if (gnomeInterval) {
+        clearInterval(gnomeInterval);
+        gnomeInterval = null;
+        playGnome();
+    }
 }
 
 // reset counter and log history
@@ -87,6 +104,8 @@ bpmELm.innerText = bpm;
 playButton.addEventListener('click', playGnome);
 pauseButton.addEventListener('click', pauseGnome);
 resetCounterButton.addEventListener('click', resetCounter);
-increaseBPMButton.addEventListener('click', incrementBPM);
-decreaseBPMButton.addEventListener('click', decrementBPM);
+increaseBPMByTenButton.addEventListener('click', () => setBPM(bpm + 10));
+increaseBPMButton.addEventListener('click', () => setBPM(bpm + 1));
+decreaseBPMButton.addEventListener('click', () => setBPM(bpm - 1));
+decreaseBPMByTenButton.addEventListener('click', () => setBPM(bpm - 10));
 clearHistoryButton.addEventListener('click', clearHistory);
