@@ -12,45 +12,53 @@
         <h1>Metrognome</h1>
     </header>
     <main>
-        <div>
-            <span id="bpm"></span>
+        <div class="container">
+            <div>
+                <div class="container">
+                    <div id="bpm"></div>
+                </div>
+                <div class="container">
+                    <button id="decreaseBPMByTen">- 10</button>
+                    <button id="decreaseBPM">- 1</button>
+                    <button id="increaseBPM">+ 1</button>
+                    <button id="increaseBPMByTen">+ 10</button>
+                </div>
+                <div class="container">
+                    <div id="hiIndicator">○</div>
+                    <div id="loIndicator">○</div>
+                </div>
+                <div class="container">
+                    <button id="playButton">Play</button>
+                    <button id="pauseButton">Pause</button>
+                </div>
+                <div class="container">
+                    <input type="checkbox" id="checkbox" checked>
+                    <label for="checkbox">Stress First Beat</label>
+                </div>
+                <div class="container">
+                        Counter:&nbsp;<span id="counter">0</span>&nbsp;&nbsp;
+                        Reps:&nbsp;<span id="reps">0</span>
+                </div>
+                <div class="container">
+                    <button id="resetCounterButton">Reset Counter</button>
+                    
+                </div>
+            </div>
+            <!-- <div id="spacer"></div>
+            <div id="stopwatchContainer">
+                <p id="stopwatch"></p>
+                <button id="stopwatchStart">Start</button>
+                <button id="stopwatchStop">Stop</button>
+                <button id="stopwatchReset">Reset</button>
+            </div> -->
         </div>
-        <div>
-            <button id="decreaseBPMByTen">- 10</button>
-            <button id="decreaseBPM">- 1</button>
-            <button id="increaseBPM">+ 1</button>
-            <button id="increaseBPMByTen">+ 10</button>
-        </div>
-        <div>
-            <span id="hiIndicator">○</span>
-            <span id="loIndicator">○</span>
-        </div>
-        <div>
-            <button id="playButton">Play</button>
-            <button id="pauseButton">Pause</button>
-        </div>
-        <div>
-            <input type="checkbox" id="checkbox">
-            <label for="checkbox">Stress First Beat</label>
-        </div>
-        <div>
-                Counter:&nbsp;<span id="counter">0</span>&nbsp;&nbsp;
-                Reps:&nbsp;<span id="reps">0</span>
-        </div>
-        <div>
-            <button id="resetCounterButton">Reset Counter</button>
-            <button id="clearHistoryButton">Clear History</button>
-        </div>
+        
         <div id="historyContainer">
             <h3>History</h3>
             <ul id="history"></ul>
+            <button id="clearHistoryButton">Clear History</button>
         </div>
-        <!-- <div>Stopwatch
-            <p id="stopwatch"></p>
-            <button id="stopwatchStart">Start</button>
-            <button id="stopwatchStop">Stop</button>
-            <button id="stopwatchReset">Reset</button>
-        </div> -->
+        
         <audio id="lo" src="Synth_Sine_C_lo.wav"></audio>
         <audio id="hi" src="Synth_Sine_C_hi.wav"></audio>
     </main>
