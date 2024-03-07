@@ -41,7 +41,19 @@
                 </div>
                 <div class="container">
                     <button id="resetCounterButton">Reset Counter</button>
-                    
+                </div>
+                <div class="container set">
+                    <ul>
+                        <li>
+                            <span>Number of Reps in Set:&nbsp;</span>
+                            <input id="setSize" />
+                            <span>Interpreted as:&nbsp;</span>
+                            <span id="setSizeParsed"></span>
+                        </li>
+                        <!-- <li><input type="checkbox" id="setCompleteReset"><label for="setCompleteCheck">Auto-reset counter on set completion</label></li> -->
+                        <li><input type="checkbox" id="setCompleteSound"><label for="setCompleteCheck">Play sound on set completion</label></li>
+                        <li><input type="checkbox" id="setCompletePause"><label for="setCompleteCheck">Pause on set completion</label></li>
+                    </ul>
                 </div>
             </div>
             <!-- <div id="spacer"></div>
@@ -61,6 +73,7 @@
         
         <audio id="lo" src="Synth_Sine_C_lo.wav"></audio>
         <audio id="hi" src="Synth_Sine_C_hi.wav"></audio>
+        <audio id="bell" src="boxing-bell.mp3"></audio>
     </main>
     <!-- <footer>
         <p>© 2024 Metrognome</p>

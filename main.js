@@ -5,7 +5,7 @@ let gnomeInterval;
 let bpm = 50;
 let counter = 0;
 
-// arrach dom elements
+// attach dom elements
 const playButton = document.getElementById('playButton');
 const pauseButton = document.getElementById('pauseButton');
 const bpmELm = document.getElementById('bpm');
@@ -14,6 +14,7 @@ const repsElm = document.getElementById('reps');
 const resetCounterButton = document.getElementById('resetCounterButton');
 const audioElm = document.getElementById('lo');
 const audioElmStress = document.getElementById('hi');
+const audioElmBell = document.getElementById('bell');
 const historyElm = document.getElementById('history');
 const increaseBPMByTenButton = document.getElementById('increaseBPMByTen');
 const increaseBPMButton = document.getElementById('increaseBPM');
@@ -23,6 +24,11 @@ const clearHistoryButton = document.getElementById('clearHistoryButton');
 const checkboxElm = document.getElementById('checkbox');
 const hiIndicatorElm = document.getElementById('hiIndicator');
 const loIndicatorElm = document.getElementById('loIndicator');
+// const setCompleteResetCheck = document.getElementById('setCompleteReset');
+const setCompleteSoundCheck = document.getElementById('setCompleteSound');
+const setCompletePauseCheck = document.getElementById('setCompletePause');
+const setSizeInputElm = document.getElementById('setSize');
+const setSizeParsedElm = document.getElementById('setSizeParsed');
 
 // start the metronome
 function playGnome() {
@@ -65,6 +71,21 @@ function tickCounter() {
     counterElm.innerText = counter;
     const reps = Math.floor(counter / 2);
     repsElm.innerText = reps;
+    
+    const setSize = Math.floor(Number(setSizeInputElm.value));
+    setSizeParsedElm.innerText = setSize || 'Invalid';
+    if (setSize && reps && reps % setSize === 0) {
+        // if (setCompleteResetCheck.checked) {
+        //     resetCounter();
+        // }
+        if (setCompleteSoundCheck.checked) {
+            audioElmBell.play();
+        }
+        if (setCompletePauseCheck.checked) {
+            pauseGnome();
+        }
+    }
+    
 }
 
 // increment BPM

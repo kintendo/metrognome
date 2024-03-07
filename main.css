@@ -11,6 +11,20 @@ main {
 .container {
     display: flex;
     justify-content: center;
+    margin: 5px;
+}
+
+.set {
+    display: flex;
+    flex-direction: column;
+}
+
+.set ul {
+    list-style: none;
+}
+
+.set input {
+    width: 20px;
 }
 
 #spacer {
