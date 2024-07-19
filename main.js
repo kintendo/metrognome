@@ -1,9 +1,9 @@
-console.log('working');
-
 // mutable variables
 let gnomeInterval;
 let bpm = 50;
 let counter = 0;
+let setSize = 0;
+let setCount = 0;
 
 // attach dom elements
 const playButton = document.getElementById('playButton');
@@ -28,22 +28,26 @@ const loIndicatorElm = document.getElementById('loIndicator');
 const setCompleteSoundCheck = document.getElementById('setCompleteSound');
 const setCompletePauseCheck = document.getElementById('setCompletePause');
 const setSizeInputElm = document.getElementById('setSize');
+const setSizeButton = document.getElementById('setSizeButton');
 const setSizeParsedElm = document.getElementById('setSizeParsed');
+const setCountElm = document.getElementById('setCount');
 
 // start the metronome
 function playGnome() {
     if (gnomeInterval) {
         return;
     }
+    playButton.innerText = 'Playing';
+    pauseButton.innerText = 'Pause';
     const interval = 60 / bpm * 1000;
     gnomeInterval = setInterval(() => {
+        tickCounter();
+        setIndicator();
         if (checkboxElm.checked && counter % 2 === 0) {
             audioElmStress.play();
         } else {
             audioElm.play();
         }
-        tickCounter();
-        setIndicator();
     }, interval);
 }
 
@@ -59,10 +63,12 @@ function setIndicator() {
 
 // pause the metronome
 function pauseGnome() {
+    clearInterval(gnomeInterval);
     audioElm.pause();
     audioElmStress.pause();
-    clearInterval(gnomeInterval);
     gnomeInterval = null;
+    playButton.innerText = 'Play';
+    pauseButton.innerText = 'Paused';
 }
 
 // increment counter
@@ -71,10 +77,9 @@ function tickCounter() {
     counterElm.innerText = counter;
     const reps = Math.floor(counter / 2);
     repsElm.innerText = reps;
-    
-    const setSize = Math.floor(Number(setSizeInputElm.value));
+
     setSizeParsedElm.innerText = setSize || 'Invalid';
-    if (setSize && reps && reps % setSize === 0) {
+    if (setSize && (counter / 2) % setSize === 0) {
         // if (setCompleteResetCheck.checked) {
         //     resetCounter();
         // }
@@ -84,6 +89,8 @@ function tickCounter() {
         if (setCompletePauseCheck.checked) {
             pauseGnome();
         }
+        setCount = setCount + 1;
+        setCountElm.innerText = setCount;
     }
     
 }
@@ -103,14 +110,32 @@ function setBPM(value) {
 function resetCounter() {
     logCounterHistory();
     counter = 0;
+    setCount = 0;
     counterElm.innerText = counter;
+    repsElm.innerText = 0;
+    setCountElm.innerText = setCount;
+}
+
+// set set size
+function setSetSize() {
+    setSize = Math.floor(Number(setSizeInputElm.value));
+    setSizeParsed.innerText = setSize || 'None';
+
 }
 
 // log history
 function logCounterHistory() {
-    const newHistoryRecord = document.createElement('li');
+    const newHistoryRecord = document.createElement('tr');
+    const newCountRecord = document.createElement('td');
+    const newRepsRecord = document.createElement('td');
+    const newSetRecord = document.createElement('td');
+    newCountRecord.innerText = counter;
     const reps = Math.floor(counter / 2);
-    newHistoryRecord.innerText = `Count: ${counter} -- Reps: ${reps}`;
+    newRepsRecord.innerText = reps;
+    newSetRecord.innerText = setCount;
+    newHistoryRecord.appendChild(newCountRecord);
+    newHistoryRecord.appendChild(newRepsRecord);
+    newHistoryRecord.appendChild(newSetRecord);
     historyElm.appendChild(newHistoryRecord);
 }
 
@@ -130,3 +155,4 @@ increaseBPMButton.addEventListener('click', () => setBPM(bpm + 1));
 decreaseBPMButton.addEventListener('click', () => setBPM(bpm - 1));
 decreaseBPMByTenButton.addEventListener('click', () => setBPM(bpm - 10));
 clearHistoryButton.addEventListener('click', clearHistory);
+setSizeButton.addEventListener('click', setSetSize);

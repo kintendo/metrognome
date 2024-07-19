@@ -8,27 +8,27 @@ main {
     flex-direction: column;
 }
 
-.container {
-    display: flex;
-    justify-content: center;
-    margin: 5px;
-}
-
-.set {
+/* .set {
     display: flex;
     flex-direction: column;
 }
 
-.set ul {
-    list-style: none;
-}
-
 .set input {
     width: 20px;
-}
+} */
 
 #spacer {
     width: 200px;
+}
+
+#dots {
+    display: flex;
+    justify-content: center;
+    font-size: xx-large;
+}
+
+#dots div {
+    margin: 5px;
 }
 
 #bpm {
@@ -55,4 +55,8 @@ main {
     padding: 10px;
     width: 150px;
     align-items: center;
+}
+
+#bpmControls button {
+    margin: 5px;
 }

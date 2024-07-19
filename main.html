@@ -6,71 +6,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Metrognome</title>
     <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="pico.min.css" />
 </head>
 <body>
     <header>
         <h1>Metrognome</h1>
     </header>
     <main>
-        <div class="container">
+        <div id="dots">
+            <div id="hiIndicator">○</div>
+            <div id="loIndicator">○</div>
+        </div>
+        <div class="container grid">
             <div>
-                <div class="container">
-                    <div id="bpm"></div>
-                    <span id="bpmLabel">beats per minute</span>
-                </div>
-                <div class="container">
-                    <button id="decreaseBPMByTen">- 10</button>
-                    <button id="decreaseBPM">- 1</button>
-                    <button id="increaseBPM">+ 1</button>
-                    <button id="increaseBPMByTen">+ 10</button>
-                </div>
-                <div class="container">
-                    <div id="hiIndicator">○</div>
-                    <div id="loIndicator">○</div>
-                </div>
-                <div class="container">
-                    <button id="playButton">Play</button>
-                    <button id="pauseButton">Pause</button>
-                </div>
-                <div class="container">
-                    <input type="checkbox" id="checkbox" checked>
-                    <label for="checkbox">Stress First Beat</label>
-                </div>
-                <div class="container">
-                        Counter:&nbsp;<span id="counter">0</span>&nbsp;&nbsp;
-                        Reps:&nbsp;<span id="reps">0</span>
-                </div>
-                <div class="container">
-                    <button id="resetCounterButton">Reset Counter</button>
-                </div>
-                <div class="container set">
-                    <ul>
-                        <li>
-                            <span>Number of Reps in Set:&nbsp;</span>
-                            <input id="setSize" />
-                            <span>Interpreted as:&nbsp;</span>
-                            <span id="setSizeParsed"></span>
-                        </li>
-                        <!-- <li><input type="checkbox" id="setCompleteReset"><label for="setCompleteCheck">Auto-reset counter on set completion</label></li> -->
-                        <li><input type="checkbox" id="setCompleteSound"><label for="setCompleteCheck">Play sound on set completion</label></li>
-                        <li><input type="checkbox" id="setCompletePause"><label for="setCompleteCheck">Pause on set completion</label></li>
-                    </ul>
-                </div>
+                <article>
+                    <header>BPM Controls</header>
+                    <div class="container">
+                        <mark><span id="bpm"></span></mark>
+                        <span id="bpmLabel">beats per minute</span>
+                    </div>
+                    <div id="bpmControls" class="container">
+                        <button id="decreaseBPMByTen">- 10</button>
+                        <button id="decreaseBPM">- 1</button>
+                        <button id="increaseBPM">+ 1</button>
+                        <button id="increaseBPMByTen">+ 10</button>
+                    </div>
+                </article>
+                <article>
+                    <div class="container grid">
+                        <button id="playButton">Play</button>
+                        <button id="pauseButton">Pause</button>
+                    </div>
+                        <label for="checkbox"> <input type="checkbox" id="checkbox" checked>Stress First Beat</label>
+                
+                </article>
+                <article>
+                    <div class=" grid">
+                        <em data-tooltip="Number of total beats">Counter:&nbsp;<span id="counter">0</span>&nbsp;&nbsp;</em>
+                        <em data-tooltip="Every two beats is a rep">Reps:&nbsp;<span id="reps">0</span></em>
+                    </div>
+                    </br>
+                    <div class="grid">
+                        <button id="resetCounterButton">Reset Counter</button>
+                    </div>
+                </article>
+                <article>
+                    <header>Set Controls</header>
+                    <div class="container">
+       
+                        <fieldset role="group">
+                            <input id="setSize" type="number" placeholder="Number of reps in set"/>
+                            <input id="setSizeButton" type="submit" value="Set reps in set"/>
+                        </fieldset>
+                        <span>Number of Reps in Set:&nbsp;</span><span id="setSizeParsed">None</span>
+                        <br/>
+                        <span>Number of Sets:&nbsp;</span><span id="setCount">0</span>
+                            <!-- <li><input type="checkbox" id="setCompleteReset"><label for="setCompleteCheck">Auto-reset counter on set completion</label></li> -->
+                        <label for="setCompleteSound"><input type="checkbox" id="setCompleteSound"> Play sound on set completion</label>
+                        <label for="setCompletePause"><input type="checkbox" id="setCompletePause"> Pause on set completion</label>
+                    </div>
+                </article>
             </div>
-            <!-- <div id="spacer"></div>
-            <div id="stopwatchContainer">
-                <p id="stopwatch"></p>
-                <button id="stopwatchStart">Start</button>
-                <button id="stopwatchStop">Stop</button>
-                <button id="stopwatchReset">Reset</button>
+            <!-- <div id="spacer"></div> -->
+            <!-- <div id="stopwatchContainer">
+                <article>
+                    <header>Stopwatch</header>
+                    <p id="stopwatch"></p>
+                    <button id="stopwatchStart">Start</button>
+                    <button id="stopwatchStop">Stop</button>
+                    <button id="stopwatchReset">Reset</button>
+                </article>
             </div> -->
         </div>
         
+       
         <div id="historyContainer">
-            <h3>History</h3>
-            <ul id="history"></ul>
-            <button id="clearHistoryButton">Clear History</button>
+            <article>
+                <header>History</header>
+                <table>
+                    <thead>
+                        <tr>
+                        <th scope="col">Count</th>
+                        <th scope="col">Reps</th>
+                        <th scope="col">Sets</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history"></tbody>
+                </table>
+                <button id="clearHistoryButton">Clear History</button>
+            </article>
         </div>
+        
         
         <audio id="lo" src="Synth_Sine_C_lo.wav"></audio>
         <audio id="hi" src="Synth_Sine_C_hi.wav"></audio>
