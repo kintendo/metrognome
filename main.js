@@ -78,7 +78,7 @@ function tickCounter() {
     const reps = Math.floor(counter / 2);
     repsElm.innerText = reps;
 
-    setSizeParsedElm.innerText = setSize || 'Invalid';
+    setSizeParsedElm.innerText = setSize || 'None';
     if (setSize && (counter / 2) % setSize === 0) {
         // if (setCompleteResetCheck.checked) {
         //     resetCounter();
@@ -119,8 +119,7 @@ function resetCounter() {
 // set set size
 function setSetSize() {
     setSize = Math.floor(Number(setSizeInputElm.value));
-    setSizeParsed.innerText = setSize || 'None';
-
+    setSizeParsedElm.innerText = setSize || 'None';
 }
 
 // log history
