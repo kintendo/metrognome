@@ -24,7 +24,7 @@ main {
 #dots {
     display: flex;
     justify-content: center;
-    font-size: xx-large;
+    font-size: xxx-large;
 }
 
 #dots div {
