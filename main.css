@@ -13,32 +13,19 @@
 }
 
 #bpm {
-    margin: 5px;
+    color: goldenrod;
+    font-size: 30px;
 }
 
 #bpmLabel {
     margin-top: 5px;
 }
 
-#historyContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-#historyContainer ul {
-    list-style-type: none;
-    border: 1px solid black;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    padding: 10px;
-    width: 150px;
-    align-items: center;
-}
-
 #bpmControls button {
+    margin: 5px;
+}
+
+#stopwatchContainer  button {
     margin: 5px;
 }
 
@@ -49,4 +36,22 @@
 footer {
     text-align: center;
     width: 100%;
+}
+
+#mainControls {
+    display: flex;
+    flex-direction: column;
+}
+
+#mainControls div {
+    display:flex; 
+    justify-content: left;
+}
+
+#mainControls button {
+    margin: 5px;
+}
+
+#mainControls label {
+    margin: 5px;
 }

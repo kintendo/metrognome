@@ -21,8 +21,8 @@
             <div>
                 <article>
                     <header>BPM Controls</header>
-                    <div class="container">
-                        <mark><span id="bpm"></span></mark>
+                    <div class="container center-text">
+                        <span id="bpm"></span>
                         <span id="bpmLabel">beats per minute</span>
                     </div>
                     <div id="bpmControls" class="container">
@@ -32,28 +32,23 @@
                         <button id="increaseBPMByTen">+ 10</button>
                     </div>
                 </article>
-                <article>
-                    <div class="container grid">
+                <article id="mainControls">
+                    <div class="">
                         <button id="playButton">Play</button>
                         <button id="pauseButton">Pause</button>
                     </div>
-                        <label for="checkbox"> <input type="checkbox" id="checkbox" checked>Stress First Beat</label>
-                
+                    <label for="checkbox"> <input type="checkbox" id="checkbox" checked>Stress First Beat</label>
                 </article>
                 <article>
-                    <div class=" grid">
-                        <em data-tooltip="Number of total beats">Counter:&nbsp;<span id="counter">0</span>&nbsp;&nbsp;</em>
-                        <em data-tooltip="Every two beats is a rep">Reps:&nbsp;<span id="reps">0</span></em>
-                    </div>
-                    </br>
-                    <div class="grid">
-                        <button id="resetCounterButton">Reset Counter</button>
-                    </div>
+                    <em data-tooltip="Number of total beats">Counter:&nbsp;<span id="counter">0</span>&nbsp;&nbsp;</em>
+                    </br></br>
+                    <em data-tooltip="Every two beats is a rep">Reps:&nbsp;<span id="reps">0</span></em>
+                    </br></br>
+                    <button id="resetCounterButton">Reset Counter</button>
                 </article>
                 <article>
                     <header>Set Controls</header>
                     <div class="container">
-       
                         <fieldset role="group">
                             <input id="setSize" type="number" placeholder="Number of reps in set"/>
                             <input id="setSizeButton" type="submit" value="Set reps in set"/>
@@ -65,6 +60,20 @@
                         <label for="setCompleteSound"><input type="checkbox" id="setCompleteSound"> Play sound on set completion</label>
                         <label for="setCompletePause"><input type="checkbox" id="setCompletePause"> Pause on set completion</label>
                     </div>
+                </article>
+                <article >
+                    <header>History</header>
+                    <table>
+                        <thead>
+                            <tr>
+                            <th scope="col">Count</th>
+                            <th scope="col">Reps</th>
+                            <th scope="col">Sets</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history"></tbody>
+                    </table>
+                    <button id="clearHistoryButton">Clear History</button>
                 </article>
             </div>
             <div id="stopwatchContainer">
@@ -86,22 +95,7 @@
         </div>
         
        
-        <div id="historyContainer">
-            <article>
-                <header>History</header>
-                <table>
-                    <thead>
-                        <tr>
-                        <th scope="col">Count</th>
-                        <th scope="col">Reps</th>
-                        <th scope="col">Sets</th>
-                        </tr>
-                    </thead>
-                    <tbody id="history"></tbody>
-                </table>
-                <button id="clearHistoryButton">Clear History</button>
-            </article>
-        </div>
+        
         
         
         <audio id="lo" src="Synth_Sine_C_lo.wav"></audio>
