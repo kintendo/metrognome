@@ -3,12 +3,14 @@ const stopwatchContinueButton = document.getElementById('stopwatchStop');
 const stopwatchStopButton = document.getElementById('stopwatchContinue');
 const stopwatchResetButton = document.getElementById('stopwatchReset');
 const stopwatchElm = document.getElementById('stopwatch');
+const stopwatchHistoryElm = document.getElementById('stopwatchHistory');
 
 let stopwatchInterval = null;
 let cs = 0;
 let s = 0;
 let m = 0;
 let h = 0;
+let swHistoryRowCount = 0;
 
 function updateDisplay() {
     stopwatchElm.innerHTML = `
@@ -17,6 +19,24 @@ function updateDisplay() {
         <span class="swText">${s < 10 ? `0${s}`  : s}</span> :
         <span>${cs < 10 ? `0${cs}` : cs}</span>
     `;
+}
+
+function updateStopwatchHistory() {
+    swHistoryRowCount = swHistoryRowCount + 1;
+    const tr = document.createElement('tr');
+    const rowHeader = document.createElement('td');
+    rowHeader.innerHTML = swHistoryRowCount;
+    tr.appendChild(rowHeader);
+    const td = document.createElement('td');
+    td.innerHTML = `
+        ${h < 10 ? `0${h}` : h} :
+        ${m < 10 ? `0${m}` : m} :
+        ${s < 10 ? `0${s}`  : s} :
+        ${cs < 10 ? `0${cs}` : cs}
+    `;
+    tr.appendChild(td);
+    stopwatchHistoryElm.appendChild(tr);
+
 }
 
 function stopwatchReset() {
@@ -56,6 +76,7 @@ function stopwatchStart() {
 function stopwatchStop() {
     clearInterval(stopwatchInterval);
     stopwatchInterval = null;
+    updateStopwatchHistory();
 }
 
 function stopwatchContinue() {
