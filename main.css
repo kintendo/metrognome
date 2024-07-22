@@ -1,24 +1,5 @@
-header {
-    display: flex;
-    justify-content: center;
-}
-
-main {
-    display: flex;
-    flex-direction: column;
-}
-
-/* .set {
-    display: flex;
-    flex-direction: column;
-}
-
-.set input {
-    width: 20px;
-} */
-
-#spacer {
-    width: 200px;
+.center-text {
+    text-align: center;
 }
 
 #dots {
@@ -63,4 +44,9 @@ main {
 
 .swText {
     font-size: xx-large;
+}
+
+footer {
+    text-align: center;
+    width: 100%;
 }
