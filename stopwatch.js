@@ -11,11 +11,15 @@ let m = 0;
 let h = 0;
 
 function updateDisplay() {
-    stopwatchElm.innerHTML = `${h < 10 ? `0${h}` : h}:${m < 10 ? `0${m}` : m}:${s < 10 ? `0${s}`  : s}:${cs < 10 ? `0${cs}` : cs}`;
+    stopwatchElm.innerHTML = `
+        <span class="swText">${h < 10 ? `0${h}` : h}</span> :
+        <span class="swText">${m < 10 ? `0${m}` : m}</span> :
+        <span class="swText">${s < 10 ? `0${s}`  : s}</span> :
+        <span>${cs < 10 ? `0${cs}` : cs}</span>
+    `;
 }
 
 function stopwatchReset() {
-    console.log('reset');
     cs = 0;
     s = 0;
     m = 0;
@@ -45,21 +49,26 @@ function newStopwatchInterval() {
 }
 
 function stopwatchStart() {
-    console.log('start');
     stopwatchReset();
     newStopwatchInterval();
 }
 
 function stopwatchStop() {
-    console.log('stop');
     clearInterval(stopwatchInterval);
     stopwatchInterval = null;
 }
 
 function stopwatchContinue() {
-    console.log('continue');
     if (!stopwatchInterval) {
         newStopwatchInterval();
+    }
+}
+
+function handleSpaceBar() {
+    if (stopwatchInterval) {
+        stopwatchStop();
+    } else {
+        stopwatchContinue();
     }
 }
 
@@ -69,3 +78,10 @@ stopwatchZeroStartButton.addEventListener('click', stopwatchStart);
 stopwatchContinueButton.addEventListener('click', stopwatchStop);
 stopwatchStopButton.addEventListener('click', stopwatchContinue);
 stopwatchResetButton.addEventListener('click', stopwatchReset);
+
+document.addEventListener('keydown', function(event) {
+    if (event.code === 'Space') {
+        event.preventDefault();
+        handleSpaceBar();
+    }
+});

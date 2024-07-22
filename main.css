@@ -60,3 +60,7 @@ main {
 #bpmControls button {
     margin: 5px;
 }
+
+.swText {
+    font-size: xx-large;
+}
