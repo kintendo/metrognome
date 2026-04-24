@@ -25,23 +25,36 @@ export default function Stopwatch() {
   }, [intervalSec]);
 
   const audioCtxRef = useRef(null);
+  const bellBufferRef = useRef(null);
+
+  useEffect(() => {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    const ctx = new Ctx();
+    audioCtxRef.current = ctx;
+    fetch('/boxing-bell.mp3')
+      .then((r) => r.arrayBuffer())
+      .then((buf) => ctx.decodeAudioData(buf))
+      .then((decoded) => {
+        bellBufferRef.current = decoded;
+      });
+  }, []);
+
   function playAlert() {
-    if (!audioCtxRef.current) {
-      const Ctx = window.AudioContext || window.webkitAudioContext;
-      audioCtxRef.current = new Ctx();
-    }
     const ctx = audioCtxRef.current;
-    const now = ctx.currentTime;
-    const osc = ctx.createOscillator();
+    const buf = bellBufferRef.current;
+    if (!ctx || !buf) return;
+    if (ctx.state === 'suspended') ctx.resume();
+    const src = ctx.createBufferSource();
     const gain = ctx.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(880, now);
-    gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.2, now + 0.01);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-    osc.connect(gain).connect(ctx.destination);
-    osc.start(now);
-    osc.stop(now + 0.35);
+    src.buffer = buf;
+    const now = ctx.currentTime;
+    const duration = 0.5;
+    gain.gain.setValueAtTime(1, now);
+    gain.gain.setValueAtTime(1, now + duration - 0.15);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+    src.connect(gain).connect(ctx.destination);
+    src.start(now);
+    src.stop(now + duration);
   }
 
   useEffect(() => {
@@ -136,27 +149,19 @@ export default function Stopwatch() {
       <article>
         <header>Interval Alert</header>
         <div className="container">
-          <fieldset role="group">
-            <input
-              type="number"
-              min="0"
-              placeholder="Interval (seconds)"
-              value={intervalInput}
-              onChange={(e) => setIntervalInput(e.target.value)}
-            />
-            <input
-              type="submit"
-              value="Set interval"
-              onClick={commitInterval}
-            />
-            <input
-              type="submit"
-              value="Clear interval"
-              onClick={clearIntervalAlert}
-            />
-          </fieldset>
-          <span>Alert every:&nbsp;</span>
-          <span>{intervalSec ? `${intervalSec}s` : 'Off'}</span>
+          <input
+            type="number"
+            min="0"
+            placeholder="Interval (seconds)"
+            value={intervalInput}
+            onChange={(e) => setIntervalInput(e.target.value)}
+          />
+          <button onClick={commitInterval}>Set interval</button>
+          <button onClick={clearIntervalAlert}>Clear interval</button>
+          <div>
+            <span>Alert every:&nbsp;</span>
+            <span>{intervalSec ? `${intervalSec}s` : 'Off'}</span>
+          </div>
         </div>
       </article>
       <article>
