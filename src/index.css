@@ -1,0 +1,57 @@
+.center-text {
+  text-align: center;
+}
+
+#dots {
+  display: flex;
+  justify-content: center;
+  font-size: xxx-large;
+}
+
+#dots div {
+  margin: 5px;
+}
+
+.bpm-value {
+  color: goldenrod;
+  font-size: 30px;
+}
+
+.bpm-label {
+  margin-top: 5px;
+}
+
+.bpm-controls button {
+  margin: 5px;
+}
+
+.stopwatch-container button {
+  margin: 5px;
+}
+
+.sw-text {
+  font-size: xx-large;
+}
+
+footer {
+  text-align: center;
+  width: 100%;
+}
+
+.main-controls {
+  display: flex;
+  flex-direction: column;
+}
+
+.main-controls > div {
+  display: flex;
+  justify-content: left;
+}
+
+.main-controls button {
+  margin: 5px;
+}
+
+.main-controls label {
+  margin: 5px;
+}
