@@ -6,6 +6,8 @@ export default function Stopwatch() {
   const [totalCs, setTotalCs] = useState(0);
   const [running, setRunning] = useState(false);
   const [history, setHistory] = useState([]);
+  const [intervalInput, setIntervalInput] = useState('');
+  const [intervalSec, setIntervalSec] = useState(0);
 
   const runningRef = useRef(running);
   useEffect(() => {
@@ -17,9 +19,29 @@ export default function Stopwatch() {
     totalCsRef.current = totalCs;
   }, [totalCs]);
 
+  const intervalSecRef = useRef(intervalSec);
+  useEffect(() => {
+    intervalSecRef.current = intervalSec;
+  }, [intervalSec]);
+
+  const alertAudioRef = useRef(null);
+
   useEffect(() => {
     if (!running) return;
-    const id = setInterval(() => setTotalCs((t) => t + 1), 10);
+    const id = setInterval(() => {
+      setTotalCs((t) => {
+        const next = t + 1;
+        const sec = intervalSecRef.current;
+        if (sec > 0) {
+          const prevSec = Math.floor(t / 100);
+          const nextSec = Math.floor(next / 100);
+          if (nextSec > prevSec && nextSec % sec === 0) {
+            alertAudioRef.current?.play();
+          }
+        }
+        return next;
+      });
+    }, 10);
     return () => clearInterval(id);
   }, [running]);
 
@@ -55,6 +77,10 @@ export default function Stopwatch() {
     setTotalCs(0);
   }
 
+  function commitInterval() {
+    setIntervalSec(Math.max(0, Math.floor(Number(intervalInput))) || 0);
+  }
+
   useEffect(() => {
     function onKey(e) {
       if (e.code !== 'Space') return;
@@ -85,6 +111,27 @@ export default function Stopwatch() {
         <button onClick={reset}>Reset</button>
       </article>
       <article>
+        <header>Interval Alert</header>
+        <div className="container">
+          <fieldset role="group">
+            <input
+              type="number"
+              min="0"
+              placeholder="Interval (seconds)"
+              value={intervalInput}
+              onChange={(e) => setIntervalInput(e.target.value)}
+            />
+            <input
+              type="submit"
+              value="Set interval"
+              onClick={commitInterval}
+            />
+          </fieldset>
+          <span>Alert every:&nbsp;</span>
+          <span>{intervalSec ? `${intervalSec}s` : 'Off'}</span>
+        </div>
+      </article>
+      <article>
         <header>Stopwatch History</header>
         <table>
           <tbody>
@@ -99,6 +146,7 @@ export default function Stopwatch() {
           </tbody>
         </table>
       </article>
+      <audio ref={alertAudioRef} src="/boxing-bell.mp3" />
     </div>
   );
 }
