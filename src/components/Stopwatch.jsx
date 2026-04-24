@@ -24,7 +24,25 @@ export default function Stopwatch() {
     intervalSecRef.current = intervalSec;
   }, [intervalSec]);
 
-  const alertAudioRef = useRef(null);
+  const audioCtxRef = useRef(null);
+  function playAlert() {
+    if (!audioCtxRef.current) {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      audioCtxRef.current = new Ctx();
+    }
+    const ctx = audioCtxRef.current;
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(880, now);
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.2, now + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.35);
+  }
 
   useEffect(() => {
     if (!running) return;
@@ -36,7 +54,7 @@ export default function Stopwatch() {
           const prevSec = Math.floor(t / 100);
           const nextSec = Math.floor(next / 100);
           if (nextSec > prevSec && nextSec % sec === 0) {
-            alertAudioRef.current?.play();
+            playAlert();
           }
         }
         return next;
@@ -79,6 +97,11 @@ export default function Stopwatch() {
 
   function commitInterval() {
     setIntervalSec(Math.max(0, Math.floor(Number(intervalInput))) || 0);
+  }
+
+  function clearIntervalAlert() {
+    setIntervalInput('');
+    setIntervalSec(0);
   }
 
   useEffect(() => {
@@ -126,6 +149,11 @@ export default function Stopwatch() {
               value="Set interval"
               onClick={commitInterval}
             />
+            <input
+              type="submit"
+              value="Clear interval"
+              onClick={clearIntervalAlert}
+            />
           </fieldset>
           <span>Alert every:&nbsp;</span>
           <span>{intervalSec ? `${intervalSec}s` : 'Off'}</span>
@@ -146,7 +174,6 @@ export default function Stopwatch() {
           </tbody>
         </table>
       </article>
-      <audio ref={alertAudioRef} src="/boxing-bell.mp3" />
     </div>
   );
 }
