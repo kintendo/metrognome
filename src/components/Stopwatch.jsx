@@ -31,7 +31,7 @@ export default function Stopwatch() {
     const Ctx = window.AudioContext || window.webkitAudioContext;
     const ctx = new Ctx();
     audioCtxRef.current = ctx;
-    fetch('/boxing-bell.mp3')
+    fetch('/alarm.wav')
       .then((r) => r.arrayBuffer())
       .then((buf) => ctx.decodeAudioData(buf))
       .then((decoded) => {
@@ -45,16 +45,9 @@ export default function Stopwatch() {
     if (!ctx || !buf) return;
     if (ctx.state === 'suspended') ctx.resume();
     const src = ctx.createBufferSource();
-    const gain = ctx.createGain();
     src.buffer = buf;
-    const now = ctx.currentTime;
-    const duration = 0.5;
-    gain.gain.setValueAtTime(1, now);
-    gain.gain.setValueAtTime(1, now + duration - 0.15);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
-    src.connect(gain).connect(ctx.destination);
-    src.start(now);
-    src.stop(now + duration);
+    src.connect(ctx.destination);
+    src.start();
   }
 
   useEffect(() => {
