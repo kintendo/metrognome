@@ -7,7 +7,10 @@ export default function Stopwatch() {
   const [running, setRunning] = useState(false);
   const [history, setHistory] = useState([]);
   const [intervalInput, setIntervalInput] = useState('');
+  const [restInput, setRestInput] = useState('');
   const [intervalSec, setIntervalSec] = useState(0);
+  const [restSec, setRestSec] = useState(0);
+  const [intervalCount, setIntervalCount] = useState(0);
 
   const runningRef = useRef(running);
   useEffect(() => {
@@ -24,24 +27,35 @@ export default function Stopwatch() {
     intervalSecRef.current = intervalSec;
   }, [intervalSec]);
 
+  const restSecRef = useRef(restSec);
+  useEffect(() => {
+    restSecRef.current = restSec;
+  }, [restSec]);
+
   const audioCtxRef = useRef(null);
   const bellBufferRef = useRef(null);
+  const startBufferRef = useRef(null);
+  const stopBufferRef = useRef(null);
 
   useEffect(() => {
     const Ctx = window.AudioContext || window.webkitAudioContext;
     const ctx = new Ctx();
     audioCtxRef.current = ctx;
-    fetch('/alarm.wav')
-      .then((r) => r.arrayBuffer())
-      .then((buf) => ctx.decodeAudioData(buf))
-      .then((decoded) => {
-        bellBufferRef.current = decoded;
-      });
+    const load = (url, ref) =>
+      fetch(url)
+        .then((r) => r.arrayBuffer())
+        .then((buf) => ctx.decodeAudioData(buf))
+        .then((decoded) => {
+          ref.current = decoded;
+        });
+    load('/alarm.wav', bellBufferRef);
+    load('/Synth_Sine_C_hi.wav', startBufferRef);
+    load('/Synth_Sine_C_lo.wav', stopBufferRef);
   }, []);
 
-  function playAlert() {
+  function playBuffer(bufRef) {
     const ctx = audioCtxRef.current;
-    const buf = bellBufferRef.current;
+    const buf = bufRef.current;
     if (!ctx || !buf) return;
     if (ctx.state === 'suspended') ctx.resume();
     const src = ctx.createBufferSource();
@@ -56,11 +70,24 @@ export default function Stopwatch() {
       setTotalCs((t) => {
         const next = t + 1;
         const sec = intervalSecRef.current;
+        const rest = restSecRef.current;
         if (sec > 0) {
           const prevSec = Math.floor(t / 100);
           const nextSec = Math.floor(next / 100);
-          if (nextSec > prevSec && nextSec % sec === 0) {
-            playAlert();
+          if (nextSec > prevSec) {
+            if (rest > 0) {
+              const cycle = sec + rest;
+              const pos = nextSec % cycle;
+              if (pos === sec) {
+                playBuffer(stopBufferRef);
+                setIntervalCount((c) => c + 1);
+              } else if (pos === 0 && nextSec > 0) {
+                playBuffer(startBufferRef);
+              }
+            } else if (nextSec % sec === 0) {
+              playBuffer(bellBufferRef);
+              setIntervalCount((c) => c + 1);
+            }
           }
         }
         return next;
@@ -76,6 +103,7 @@ export default function Stopwatch() {
 
   function startFromZero() {
     setTotalCs(0);
+    setIntervalCount(0);
     setRunning(true);
   }
 
@@ -99,15 +127,21 @@ export default function Stopwatch() {
 
   function reset() {
     setTotalCs(0);
+    setIntervalCount(0);
   }
 
   function commitInterval() {
     setIntervalSec(Math.max(0, Math.floor(Number(intervalInput))) || 0);
+    setRestSec(Math.max(0, Math.floor(Number(restInput))) || 0);
+    setIntervalCount(0);
   }
 
   function clearIntervalAlert() {
     setIntervalInput('');
+    setRestInput('');
     setIntervalSec(0);
+    setRestSec(0);
+    setIntervalCount(0);
   }
 
   useEffect(() => {
@@ -149,11 +183,23 @@ export default function Stopwatch() {
             value={intervalInput}
             onChange={(e) => setIntervalInput(e.target.value)}
           />
+          <input
+            type="number"
+            min="0"
+            placeholder="Rest (seconds)"
+            value={restInput}
+            onChange={(e) => setRestInput(e.target.value)}
+          />
           <button onClick={commitInterval}>Set interval</button>
           <button onClick={clearIntervalAlert}>Clear interval</button>
           <div>
-            <span>Alert every:&nbsp;</span>
-            <span>{intervalSec ? `${intervalSec}s` : 'Off'}</span>
+            <span>Interval:&nbsp;</span>
+            <span>{intervalSec ? `${intervalSec}s on` : 'Off'}</span>
+            {intervalSec && restSec ? <span>&nbsp;/ {restSec}s rest</span> : null}
+          </div>
+          <div>
+            <span>Intervals completed:&nbsp;</span>
+            <span>{intervalCount}</span>
           </div>
         </div>
       </article>
