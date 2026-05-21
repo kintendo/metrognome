@@ -117,6 +117,7 @@ export default function Stopwatch() {
         m: Math.floor(t / 6000) % 60,
         s: Math.floor(t / 100) % 60,
         cs: t % 100,
+        intervals: intervalCount,
       },
     ]);
   }
@@ -206,6 +207,13 @@ export default function Stopwatch() {
       <article>
         <header>Stopwatch History</header>
         <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Time</th>
+              <th>Intervals</th>
+            </tr>
+          </thead>
           <tbody>
             {history.map((row, i) => (
               <tr key={i}>
@@ -213,6 +221,7 @@ export default function Stopwatch() {
                 <td>
                   {fmt(row.h)} : {fmt(row.m)} : {fmt(row.s)} : {fmt(row.cs)}
                 </td>
+                <td>{row.intervals ?? 0}</td>
               </tr>
             ))}
           </tbody>
