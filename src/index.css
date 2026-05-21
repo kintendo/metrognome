@@ -21,6 +21,10 @@
   margin-top: 5px;
 }
 
+.bpm-controls {
+  text-align: center;
+}
+
 .bpm-controls button {
   margin: 5px;
 }
@@ -45,7 +49,7 @@ footer {
 
 .main-controls > div {
   display: flex;
-  justify-content: left;
+  justify-content: center;
 }
 
 .main-controls button {
@@ -54,4 +58,100 @@ footer {
 
 .main-controls label {
   margin: 5px;
+}
+
+.btn-paused {
+  background-color: firebrick;
+  border-color: firebrick;
+  outline: 2px solid goldenrod;
+  outline-offset: 2px;
+}
+
+.btn-resume {
+  background-color: seagreen;
+  border-color: seagreen;
+}
+
+.btn-playing {
+  outline: 2px solid goldenrod;
+  outline-offset: 2px;
+}
+
+button:hover,
+input[type='submit']:hover {
+  background-color: #3eb7e0;
+  border-color: #3eb7e0;
+  color: #fff;
+}
+
+.btn-paused:hover {
+  background-color: #e74c3c;
+  border-color: #e74c3c;
+  color: #fff;
+}
+
+.btn-resume:hover {
+  background-color: #3cb371;
+  border-color: #3cb371;
+  color: #fff;
+}
+
+.btn-reset:active {
+  outline: 2px solid goldenrod;
+  outline-offset: 2px;
+}
+
+.sets-reps-row,
+.sets-reps-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.sets-reps-row .small-input {
+  width: 90px;
+  margin-bottom: 0;
+}
+
+.sets-reps-row .sets-reps-input {
+  width: 130px;
+}
+
+.small-input::-webkit-inner-spin-button,
+.small-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.small-input {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.small-input.committed {
+  border-color: goldenrod;
+  box-shadow: 0 0 0 1px goldenrod;
+}
+
+.committed-value {
+  color: goldenrod;
+}
+
+.sets-reps-buttons button {
+  margin-bottom: 0;
+  width: auto;
+}
+
+.multiplier {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.counters-row {
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
